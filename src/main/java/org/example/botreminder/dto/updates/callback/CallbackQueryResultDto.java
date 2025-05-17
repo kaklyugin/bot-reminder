@@ -14,4 +14,14 @@ public class CallbackQueryResultDto extends UpdateResultDto {
         super(updateId);
         this.callbackQuery = callbackQuery;
     }
+
+    @Override
+    public String getUserResponse() {
+        return this.getCallbackQuery().getData();
+    }
+
+    @Override
+    public String getResponseType() {
+        return "callback";
+    }
 }

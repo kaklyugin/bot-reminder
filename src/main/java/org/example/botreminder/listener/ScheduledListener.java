@@ -1,6 +1,8 @@
 package org.example.botreminder.listener;
 
+import org.example.botreminder.cmdprocessor.CommandInvoker;
 import org.example.botreminder.deserializer.GsonConfiguration;
+import org.example.botreminder.dto.UserResponse;
 import org.example.botreminder.dto.updates.TelegramResponseDto;
 import org.example.botreminder.scheduler.CustomBotClient;
 import org.slf4j.Logger;
@@ -20,10 +22,14 @@ public class ScheduledListener {
 
     private final CustomBotClient customBotClient;
     private final GsonConfiguration gsonConfiguration;
+    private final CommandInvoker commandInvoker;
 
-    public ScheduledListener(CustomBotClient customBotClient, GsonConfiguration gson) {
+    public ScheduledListener(CustomBotClient customBotClient,
+                             GsonConfiguration gson,
+                             CommandInvoker commandInvoker, CommandInvoker commandInvoker1) {
         this.customBotClient = customBotClient;
         this.gsonConfiguration = gson;
+        this.commandInvoker = commandInvoker1;
     }
 
     @Async
@@ -33,5 +39,13 @@ public class ScheduledListener {
         var updatesJson = customBotClient.getUpdates();
         var updates = gsonConfiguration.gson().fromJson(updatesJson, TelegramResponseDto.class);
         logger.info("Deserialized json with updates = " + updates.toString());
+        updates.getResult().forEach(
+                update -> {
+                    commandInvoker.invokeCommand(
+                            new UserResponse(update.getResponseType(),
+                                    update.getUserResponse()));
+                }
+        );
+
     }
 }

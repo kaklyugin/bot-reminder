@@ -11,4 +11,6 @@ public abstract class UpdateResultDto {
     public UpdateResultDto(Long updateId) {
         this.updateId = updateId;
     }
+    public abstract String getUserResponse();
+    public abstract String getResponseType();
 }

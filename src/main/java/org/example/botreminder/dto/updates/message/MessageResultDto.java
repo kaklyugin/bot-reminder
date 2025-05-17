@@ -12,4 +12,14 @@ public class MessageResultDto extends UpdateResultDto {
         super(updateId);
         this.message = message;
     }
+
+    @Override
+    public String getUserResponse() {
+        return this.message.getText();
+    }
+
+    @Override
+    public String getResponseType() {
+        return "message";
+    }
 }

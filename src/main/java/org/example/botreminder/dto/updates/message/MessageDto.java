@@ -10,7 +10,10 @@ public class MessageDto {
     @SerializedName("message_id")
     private Integer messageId;
 
+    private String text;
+
     public MessageDto(Integer messageId) {
         this.messageId = messageId;
     }
+
 }

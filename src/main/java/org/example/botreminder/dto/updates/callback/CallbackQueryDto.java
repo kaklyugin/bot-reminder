@@ -8,6 +8,7 @@ import lombok.ToString;
 public class CallbackQueryDto {
 
     private String id;
+    private String data;
 
     public CallbackQueryDto(String id) {
         this.id = id;
