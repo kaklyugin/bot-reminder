@@ -18,7 +18,7 @@ public class UserResponseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_updates_sequence")
     private Long id;
 
-    @Column(name = "update_id", nullable = false, unique=true)
+    @Column(name = "update_id", nullable = false, unique = true)
     private Long updateId;
 
     @Column(name = "user_id", nullable = false)
@@ -34,7 +34,7 @@ public class UserResponseEntity {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Column(name = "raw_message",columnDefinition = "jsonb", nullable = false)
+    @Column(name = "raw_message", columnDefinition = "jsonb", nullable = false)
     @Type(JsonType.class)
     private String rawJson;
 

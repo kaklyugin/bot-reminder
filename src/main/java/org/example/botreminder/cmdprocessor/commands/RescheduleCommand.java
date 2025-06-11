@@ -7,7 +7,7 @@ import org.example.botreminder.service.TgBotService;
 public class RescheduleCommand extends Command {
 
     public RescheduleCommand(UserResponseEntity userResponseEntity, TgBotService tgBotService) {
-        super(userResponseEntity,tgBotService);
+        super(userResponseEntity, tgBotService);
     }
 
     @Override

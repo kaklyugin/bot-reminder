@@ -11,31 +11,31 @@ import java.util.List;
 public class StartCommand extends Command {
 
     public StartCommand(UserResponseEntity userResponseEntity, TgBotService tgBotService) {
-        super(userResponseEntity,tgBotService);
+        super(userResponseEntity, tgBotService);
     }
 
     @Override
     public void execute() {
         super.getTgBotService().saveUserResponse(userResponseEntity);
-        BotResponseContentDto responseContent =  BotResponseContentDto
+        BotResponseContentDto responseContent = BotResponseContentDto
                 .builder().text("Получить список сптуников")
                 .replyMarkup(BotResponseContentDto.InlineKeyboard.builder()
                         .keyboardRow(
-                        List.of(
-                                BotResponseContentDto.InlineKeyboardButton
-                                .builder()
-                                .text("Amateur Sat")
-                                .callbackData("AMATEUR_SAT")
-                                .build(),
-                                BotResponseContentDto.InlineKeyboardButton
-                                        .builder()
-                                        .text("NOAA")
-                                        .callbackData("NOAA_SAT")
-                                        .build())
-                                )
+                                List.of(
+                                        BotResponseContentDto.InlineKeyboardButton
+                                                .builder()
+                                                .text("Amateur Sat")
+                                                .callbackData("AMATEUR_SAT")
+                                                .build(),
+                                        BotResponseContentDto.InlineKeyboardButton
+                                                .builder()
+                                                .text("NOAA")
+                                                .callbackData("NOAA_SAT")
+                                                .build())
+                        )
                         .build()
                 ).build();
-        var message = new BotResponseMessageDto(userResponseEntity.getChatId(),responseContent);
+        var message = new BotResponseMessageDto(userResponseEntity.getChatId(), responseContent);
         super.getTgBotService().sendMessage(message);
     }
 

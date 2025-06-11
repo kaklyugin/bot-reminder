@@ -1,20 +1,12 @@
 package org.example.botreminder.service;
 
-import com.google.gson.Gson;
 import org.example.botreminder.cmdprocessor.CommandDispatcher;
-import org.example.botreminder.deserializer.GsonConfiguration;
 import org.example.botreminder.dto.send.BotResponseMessageDto;
 import org.example.botreminder.dto.updates.AbstractUpdateResultDto;
-import org.example.botreminder.dto.updates.TelegramResponseDto;
-import org.example.botreminder.messageprovider.MessageProvider;
 import org.example.botreminder.model.UserResponseEntity;
 import org.example.botreminder.repository.UserUpdatesRepository;
 import org.example.botreminder.service.botclient.HttpBotClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +15,7 @@ public class TgBotService implements UpdatesProcessor {
 
     private final UserUpdatesRepository repository;
     private final HttpBotClient httpBotClient;
-        private final CommandDispatcher commandDispatcher;
+    private final CommandDispatcher commandDispatcher;
 
 
     public TgBotService(UserUpdatesRepository repository, HttpBotClient httpBotClient, CommandDispatcher commandDispatcher) {

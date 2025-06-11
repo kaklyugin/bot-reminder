@@ -1,9 +1,7 @@
 package org.example.botreminder.dto.send;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 @Setter
 public class BotResponseMessageDto extends BotResponseContentDto {

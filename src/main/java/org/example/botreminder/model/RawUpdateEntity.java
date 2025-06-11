@@ -2,7 +2,6 @@ package org.example.botreminder.model;
 
 import com.vladmihalcea.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Type;
@@ -18,7 +17,7 @@ public class RawUpdateEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "raw_updates_sequence")
     private Long id;
 
-    @Column(name = "message",columnDefinition = "jsonb", nullable = false)
+    @Column(name = "message", columnDefinition = "jsonb", nullable = false)
     @Type(JsonType.class)
     private String rawJson;
 

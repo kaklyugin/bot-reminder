@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.example.botreminder.dto.send.BotResponseMessageDto;
 import org.example.botreminder.dto.tgresponse.SendStatusDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -38,7 +36,7 @@ public class HttpBotClient {
     private final Gson gson = new Gson();
 
     public HttpBotClient(
-            @Value("${bot.url}") String botBaseUrl ) {
+            @Value("${bot.url}") String botBaseUrl) {
         this.botBaseUrl = botBaseUrl;
         this.client = createHttpClient();
     }
@@ -111,6 +109,7 @@ public class HttpBotClient {
                     @Override
                     public void checkClientTrusted(X509Certificate[] certs, String authType) {
                     }
+
                     @Override
                     public void checkServerTrusted(X509Certificate[] certs, String authType) {
 

@@ -3,9 +3,7 @@ package org.example.botreminder.scheduler;
 import lombok.extern.slf4j.Slf4j;
 import org.example.botreminder.deserializer.GsonConfiguration;
 import org.example.botreminder.dto.updates.TelegramResponseAsJsonStringsDto;
-import org.example.botreminder.dto.updates.TelegramResponseDto;
 import org.example.botreminder.service.botclient.HttpBotClient;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
@@ -43,7 +41,7 @@ public class UpdatesListener {
 //            );
 //        }
 
-    //}
-}
+        //}
+    }
 
 }

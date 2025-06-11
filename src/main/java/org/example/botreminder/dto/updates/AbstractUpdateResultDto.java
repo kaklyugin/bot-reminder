@@ -13,8 +13,12 @@ public abstract class AbstractUpdateResultDto {
     public AbstractUpdateResultDto(Long updateId) {
         this.updateId = updateId;
     }
+
     public abstract String getUserResponse();
+
     public abstract String getResponseType();
+
     public abstract Chat getChat();
+
     public abstract From getForm();
 }

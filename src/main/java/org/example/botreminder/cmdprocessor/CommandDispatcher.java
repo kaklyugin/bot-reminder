@@ -13,15 +13,12 @@ public class CommandDispatcher {
     @Autowired
     private TgBotService tgBotService;
 
-    public void dispatch(UserResponseEntity userResponseEntity)
-    {
-        if (userResponseEntity.getText().equals("/start"))
-        {
-            new StartCommand(userResponseEntity,tgBotService).execute();
+    public void dispatch(UserResponseEntity userResponseEntity) {
+        if (userResponseEntity.getText().equals("/start")) {
+            new StartCommand(userResponseEntity, tgBotService).execute();
         }
-        if (userResponseEntity.getText().equals("/reschedule"))
-        {
-            new RescheduleCommand(userResponseEntity,tgBotService).execute();
+        if (userResponseEntity.getText().equals("/reschedule")) {
+            new RescheduleCommand(userResponseEntity, tgBotService).execute();
         }
     }
 }

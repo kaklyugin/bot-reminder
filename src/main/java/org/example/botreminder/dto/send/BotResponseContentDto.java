@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 @Setter
-@SuperBuilder(toBuilder=true)
+@SuperBuilder(toBuilder = true)
 public class BotResponseContentDto {
 
     private String text;
@@ -19,15 +19,14 @@ public class BotResponseContentDto {
 
     @Setter
     @Builder
-    public static class InlineKeyboard
-    {
+    public static class InlineKeyboard {
         @Singular("keyboardRow")
-        @SerializedName(value ="inline_keyboard")
+        @SerializedName(value = "inline_keyboard")
         private List<List<InlineKeyboardButton>> inlineKeyboard;
     }
+
     @Builder
-    public static class InlineKeyboardButton
-    {
+    public static class InlineKeyboardButton {
         private String text;
         @SerializedName("callback_data")
         private String callbackData;
