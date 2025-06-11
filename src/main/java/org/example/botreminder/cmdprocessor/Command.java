@@ -1,7 +1,8 @@
 package org.example.botreminder.cmdprocessor;
 
 import lombok.Data;
-import org.example.botreminder.dto.UserResponse;
+import org.example.botreminder.model.UserResponseEntity;
+import org.example.botreminder.service.TgBotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,25 +10,20 @@ import org.slf4j.LoggerFactory;
 public abstract class Command {
     private static final Logger logger = LoggerFactory.getLogger(Command.class);
 
-    protected UserResponse userResponse;
-    protected UserResponseHandler userResponseHandler;
+    protected UserResponseEntity userResponseEntity;
+    private TgBotService tgBotService;
 
-    public Command(UserResponse userResponse, UserResponseHandler userResponseHandler) {
-        this.userResponse = userResponse;
-        this.userResponseHandler = userResponseHandler;
+    public Command(UserResponseEntity userResponseEntity, TgBotService tgBotService) {
+        this.userResponseEntity = userResponseEntity;
+        this.tgBotService = tgBotService;
     }
 
-    protected void saveCommand() {
-        logger.info("Saving command: " + userResponse);
+    protected void saveEntity() {
+        logger.info("Called saveCommand(). Try to save user response  " + userResponseEntity);
+        var result = tgBotService.saveUserResponse(userResponseEntity);
+        logger.info("Saving command result = " + result);
+
     }
-    protected void updateLastMessageId() {
-        logger.info("Updated last message id: " + userResponse);
-    }
-    protected void run()
-    {
-        saveCommand();
-        updateLastMessageId();
-        execute();
-    }
-    abstract void execute();
+
+    protected abstract void execute();
 }

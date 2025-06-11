@@ -2,10 +2,12 @@ package org.example.botreminder.dto.updates.callback;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
-import org.example.botreminder.dto.updates.UpdateResultDto;
+import org.example.botreminder.dto.Chat;
+import org.example.botreminder.dto.From;
+import org.example.botreminder.dto.updates.AbstractUpdateResultDto;
 
 @Getter
-public class CallbackQueryResultDto extends UpdateResultDto {
+public class CallbackQueryResultDto extends AbstractUpdateResultDto {
 
     @SerializedName("callback_query")
     private final CallbackQueryDto callbackQuery;
@@ -23,5 +25,15 @@ public class CallbackQueryResultDto extends UpdateResultDto {
     @Override
     public String getResponseType() {
         return "callback";
+    }
+
+    @Override
+    public Chat getChat() {
+        return callbackQuery.getChat();
+    }
+
+    @Override
+    public From getForm() {
+        return callbackQuery.getFrom();
     }
 }

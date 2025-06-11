@@ -2,15 +2,19 @@ package org.example.botreminder.dto.updates;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import org.example.botreminder.dto.Chat;
+import org.example.botreminder.dto.From;
 
 @Getter
-public abstract class UpdateResultDto {
+public abstract class AbstractUpdateResultDto {
     @SerializedName(value = "update_id")
     private Long updateId;
 
-    public UpdateResultDto(Long updateId) {
+    public AbstractUpdateResultDto(Long updateId) {
         this.updateId = updateId;
     }
     public abstract String getUserResponse();
     public abstract String getResponseType();
+    public abstract Chat getChat();
+    public abstract From getForm();
 }

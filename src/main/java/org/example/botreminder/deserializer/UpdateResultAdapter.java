@@ -1,25 +1,25 @@
 package org.example.botreminder.deserializer;
 
 import com.google.gson.*;
-import org.example.botreminder.dto.updates.UpdateResultDto;
+import org.example.botreminder.dto.updates.AbstractUpdateResultDto;
 import org.example.botreminder.dto.updates.callback.CallbackQueryDto;
 import org.example.botreminder.dto.updates.callback.CallbackQueryResultDto;
-import org.example.botreminder.dto.updates.message.MessageDto;
-import org.example.botreminder.dto.updates.message.MessageResultDto;
+import org.example.botreminder.dto.updates.message.MessageUpdateDto;
+import org.example.botreminder.dto.updates.message.MessageUpdateResultDto;
 
 import java.lang.reflect.Type;
 
-public class UpdateResultAdapter implements JsonDeserializer<UpdateResultDto> {
+public class UpdateResultAdapter implements JsonDeserializer<AbstractUpdateResultDto> {
 
     @Override
-    public UpdateResultDto deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+    public AbstractUpdateResultDto deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
 
         JsonObject jsonObject = json.getAsJsonObject();
         long updateId = jsonObject.get("update_id").getAsLong();
 
         if (jsonObject.has("message")) {
-            MessageDto messageDto = context.deserialize(jsonObject.get("message"), MessageDto.class);
-            return new MessageResultDto(updateId, messageDto);
+            MessageUpdateDto messageDto = context.deserialize(jsonObject.get("message"), MessageUpdateDto.class);
+            return new MessageUpdateResultDto(updateId, messageDto);
         } else if (jsonObject.has("callback_query")) {
             CallbackQueryDto callbackQueryDto = context.deserialize(jsonObject.get("callback_query"), CallbackQueryDto.class);
             return new CallbackQueryResultDto(updateId, callbackQueryDto);

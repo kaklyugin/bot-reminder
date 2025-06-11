@@ -1,7 +1,9 @@
-package org.example.botreminder.scheduler;
+package org.example.botreminder.service.botclient;
 
 import com.google.gson.Gson;
-import org.example.botreminder.dto.send.MessageSendDto;
+import lombok.extern.slf4j.Slf4j;
+import org.example.botreminder.dto.send.BotResponseMessageDto;
+import org.example.botreminder.dto.tgresponse.SendStatusDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,10 +22,11 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
+@Slf4j
 @Component
 @PropertySource("classpath:bot.properties")
-public class CustomBotClient {
-    private static final Logger logger = LoggerFactory.getLogger(CustomBotClient.class);
+public class HttpBotClient {
+
     private static final String SSL_PROTOCOL = "TLS";
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
@@ -31,23 +34,18 @@ public class CustomBotClient {
     private static final String GET_UPDATES_MESSAGE_ENDPOINT = "/getUpdates";
 
     private final String botBaseUrl;
-    private final String botChatId;
     private final HttpClient client;
     private final Gson gson = new Gson();
 
-    public CustomBotClient(
-            @Value("${bot.url}") String botBaseUrl,
-            @Value("${bot.chat.id}") String botChatId) {
+    public HttpBotClient(
+            @Value("${bot.url}") String botBaseUrl ) {
         this.botBaseUrl = botBaseUrl;
-        this.botChatId = botChatId;
         this.client = createHttpClient();
     }
 
-    public void sendMessage(String messageText) {
-        var message = new MessageSendDto(botChatId, messageText);
+    public boolean sendMessage(BotResponseMessageDto message) {
         String jsonMessage = gson.toJson(message);
-        logger.info("JsonMessage = {}", jsonMessage);
-
+        log.info("JsonMessage = {}", jsonMessage);
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(botBaseUrl + SEND_MESSAGE_ENDPOINT))
                 .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
@@ -55,31 +53,30 @@ public class CustomBotClient {
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("Telegram API response: {}", response.body());
+            log.info("Telegram API response: {}", response.body());
+            var result = gson.fromJson(response.body(), SendStatusDto.class);
+            return result.isOk();
         } catch (IOException | InterruptedException e) {
-            logger.error("Failed to send message to Telegram API", e);
+            log.error("Failed to send message to Telegram API", e);
         }
+        return false;
     }
 
     public String getUpdates() {
-
-        logger.info("Sending request to get updates");
-
+        log.info("Sending request to get updates");
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(botBaseUrl + GET_UPDATES_MESSAGE_ENDPOINT))
                 .GET()
                 .build();
-
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.info("Telegram API response: {}", response.body());
+            log.info("Telegram API response: {}", response.body());
             return response.body();
         } catch (IOException | InterruptedException e) {
-            logger.error("Failed to get messageUpdates from Telegram API", e);
+            log.error("Failed to get messageUpdates from Telegram API", e);
         }
         return null;
     }
-
 
     private HttpClient createHttpClient() {
         try {
@@ -88,8 +85,7 @@ public class CustomBotClient {
                     .sslContext(sslContext)
                     .build();
         } catch (RuntimeException e) {
-            logger.error("Failed to initialize HTTP client", e);
-            throw e;
+            log.error("Failed to initialize HTTP client", e);
         }
     }
 
@@ -99,7 +95,7 @@ public class CustomBotClient {
             sslContext.init(null, createTrustAllManagers(), new java.security.SecureRandom());
             return sslContext;
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            logger.error("Failed to create SSL context", e);
+            log.error("Failed to create SSL context", e);
             throw new RuntimeException("SSL context initialization failed", e);
         }
     }
@@ -114,12 +110,10 @@ public class CustomBotClient {
 
                     @Override
                     public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                        // Trust all clients
                     }
-
                     @Override
                     public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                        // Trust all servers
+
                     }
                 }
         };
